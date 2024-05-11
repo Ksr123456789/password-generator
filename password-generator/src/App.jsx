@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './App.css'
 
 function App() {
@@ -8,8 +8,7 @@ function App() {
   const [charAllowed, setCharAllowed] = useState(false);
   const [length, setLength] = useState(8);
 
-  const generatePassword =useCallback(
-    ()=>{
+  const generatePassword = ()=>{
       let pass = `ABCDEDGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`;
       if(NumAllowed){
         pass += `0123456789`;
@@ -23,9 +22,8 @@ function App() {
         ans += pass[ind];
       }
       setPassword(ans);
-    },[NumAllowed, charAllowed, length]
-  )
-  useEffect(()=>{
+    }
+  useEffect(()=>{   // this useeffect will generate password on first render and when its dependencies will change
     generatePassword();
   },[length, charAllowed, NumAllowed])
 
@@ -33,20 +31,21 @@ function App() {
 
   return (
    <>
-   <div>
+   <div className='container'>
+    <div className='sub-container'>
     <div>
       <h1>password-generator</h1>
     </div>
-    <div>
+    <div className='displayer'>
       <input 
       type="text" 
       value={password}
       readOnly
       />
-      <button onClick={generatePassword}>generate</button>
+      <button onClick={generatePassword}>generate</button> {/*we added this button if we want to generate my different password of same length with same charallowed and numallowed */}
     </div>
-    <div>
-      <div>
+    <div className='parameters'>
+      <div className='len'>
         <input
          type="range" 
          id='length' 
@@ -57,7 +56,7 @@ function App() {
          />
         <label htmlFor="length">{length}: length</label>
       </div>
-      <div>
+      <div className='num'>
         <input 
         type="checkbox" 
         checked={NumAllowed}
@@ -66,7 +65,7 @@ function App() {
         />
         <label htmlFor="num">number</label>
       </div>
-      <div>
+      <div className='.char'>
         <input 
         type='checkbox'
         id='char'
@@ -76,6 +75,7 @@ function App() {
         <label htmlFor="char">character</label>
       </div>
     </div>
+   </div>
    </div>
    </>
   )
